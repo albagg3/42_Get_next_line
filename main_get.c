@@ -6,7 +6,7 @@
 /*   By: albagarc <albagarc@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 15:38:19 by albagarc          #+#    #+#             */
-/*   Updated: 2022/07/08 15:24:38 by albagarc         ###   ########.fr       */
+/*   Updated: 2022/07/11 16:33:43 by albagarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -15,7 +15,7 @@
 //#include <sys/stat.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#define MITAM 80
+//#define MITAM 80
 
 /*int	main () 
 {
@@ -51,7 +51,7 @@ int	main ()
 	fd = open("text.txt", O_RDONLY);
 	printf("fd:%d\n", fd);
 	storage = get_next_line(fd);
-	printf("%s", storage);
+	printf("storage:%s", storage);
 	
 
 }

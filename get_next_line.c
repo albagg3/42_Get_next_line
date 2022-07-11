@@ -6,13 +6,13 @@
 /*   By: albagarc <albagarc@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 10:16:56 by albagarc          #+#    #+#             */
-/*   Updated: 2022/07/08 15:24:35 by albagarc         ###   ########.fr       */
+/*   Updated: 2022/07/11 17:35:14 by albagarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
 	size_t	i;
 
@@ -38,7 +38,7 @@ char	*ft_strchr(const char*s, int c)
 	return (0);
 }
 
-void	*ft_calloc_zero(size_t count, size_t size)
+/*void	*ft_calloc_zero(size_t count, size_t size)
 {
 	char	*ptr;
 	size_t	i;
@@ -55,10 +55,10 @@ void	*ft_calloc_zero(size_t count, size_t size)
 		return (ptr);
 	}
 	return (0);
-}
+}*/
 
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*new;
 	size_t	i;
@@ -66,6 +66,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	count;
 
 	count = 0;
+	if(!s1)
+	{
+		s1 = malloc(sizeof(char) * 1);
+		if(!s1)
+			return(NULL);
+		s1[0] = '\0';
+	}
 	i = ft_strlen(s1);
 	j = ft_strlen(s2);
 	new = malloc(sizeof(char) * (i + j + 1));
@@ -83,81 +90,123 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		count++;
 	}
 	new[count + i] = '\0';
+	free(s1);
 	return (new);
 }
 
-//char	*clean_and_cut(char	*buffer)
 
 
 char	*extract_line(char	*buffer) 
 {
 	int		i;
 	char	*line;
-	char	*rest;
-	int 	j;
 
-	j = 0;
 	i = 0;
-
-	printf("Hemos entrado en extract:%s\n", buffer);
-	while (buffer[i] != '\n')
+	if(!buffer[0])
+		return (NULL);
+	while (buffer[i] != '\n' && buffer[i] != '\0')
 	{
-//		line[i] = buffer[i];
 		i++;
 	}
-	rest = ft_calloc_zero(ft_strlen(buffer) - i, sizeof(char));
-	line = ft_calloc_zero(i + 1, sizeof(char));
+	line = malloc ((i + 2) * sizeof(char));
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (buffer[i] != '\n' && buffer[i] != '\0')
+	{
+		line[i] = buffer[i];
+		i++;
+	}
+	if (buffer[i] == '\n')
+	{
+		line[i] = '\n';
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
+}
+
+char *fill_static_buffer(char *buffer, int fd)
+{
+	char				*read_buffer_size;
+	int 				num_bytes;
+	
+	read_buffer_size = malloc ((BUFFER_SIZE + 1) * sizeof(char));
+	if(!read_buffer_size)
+		return (NULL);
+	read_buffer_size[0] = '\0';
+	num_bytes = 1;
+	while (num_bytes > 0 && !ft_strchr(read_buffer_size, '\n'))
+	{
+		num_bytes = read(fd, read_buffer_size, BUFFER_SIZE);
+		if (num_bytes > 0)
+		{
+			read_buffer_size[num_bytes] = '\0';
+			buffer = ft_strjoin(buffer, read_buffer_size);
+		}
+	}
+	free (read_buffer_size);
+	if (num_bytes == -1)
+	{
+		return(NULL);
+	}
+	
+	return (buffer);
+
+}
+
+char *clean_static_buffer(char *buffer)
+{
+	int	i;
+	int j;
+	//buffer = hola\nque tal como estas
+	//new_buffer = que tal como estas
+	//
+	char *new_buffer;
+	i = 0;
+	j = 0;
+	while (buffer[i] != '\n' && buffer[i] != '\0')
+	{
+		i++;
+	}
+	if(buffer[i] == '\0')
+	{
+		free (buffer);
+		return (NULL);
+	}
+	i++;
+	new_buffer = malloc ((ft_strlen(buffer) + 1) * sizeof(char));
+	if(!new_buffer)
+		return (NULL);
 	while (buffer[i] != '\0')
 	{
-		printf("j vale: %d\ni vale: %d\n", j, i);
-		printf("rest[j]:%c\nbuffer[i]:%c\n", rest[j], buffer[i]);
-		rest[j] = buffer[i];
+		new_buffer[j] = buffer[i];
 		i++;
 		j++;
 	}
-	printf ("rest es= %s\n", rest);
+	new_buffer[j] = '\0';
 
-	printf("mi calloc es de = %d + 1\n", i);
-	i = 0;
-	while (buffer[i] != '\n')
-	{
-		printf("i = %d\n", i);
-		line[i] = buffer[i];
-		printf("line[i]=%c\nbuffer[i]=%c\n", line[i],buffer[i]);
-		i++;
-	}
-	printf("line tiene guardado:%s\n", line);
-	printf("i = %d\n", i);
-	line[i] = '\n';
-	line[i + 1] = '\0';
-
-//	rest[j] = line[i + 1] 
-
-
-	free (buffer);
-	return (line);
+	free(buffer);
+	return(new_buffer);
 }
 
 char	*get_next_line(int fd)
 {
 	static char			*buffer;
-	char				*read_buffer_size;
-	char				*join_buffer;
 	char				*line;
 
-	buffer = ft_calloc_zero(1, 1);
-	read_buffer_size = ft_calloc_zero(BUFFER_SIZE + 1, sizeof(char));
-	while (ft_strchr(read_buffer_size, '\n') == 0)
-	{
-		read(fd, read_buffer_size, BUFFER_SIZE);
-		join_buffer = ft_strjoin(buffer, read_buffer_size);
-		printf("strjoin tiene guardado:%s\n", join_buffer);
-		free (buffer);
-		buffer = join_buffer;
-	}
-	free(read_buffer_size);
+	if(fd < 0 || BUFFER_SIZE <= 0)
+		return(NULL);
+	if(!buffer || (buffer && !ft_strchr(buffer, '\n')))
+		buffer = fill_static_buffer(buffer, fd);
+	if(!buffer)
+		return(NULL);
 	line = extract_line(buffer);
-//	clean_and_cut(buffer);
-//	free(buffer);
-return (line);
+	if(!line)
+	{
+		free(buffer);
+		return(NULL);
+	}
+	buffer = clean_static_buffer(buffer);
+	return (line);
 }
