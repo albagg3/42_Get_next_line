@@ -6,7 +6,7 @@
 /*   By: albagarc <albagarc@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 10:28:10 by albagarc          #+#    #+#             */
-/*   Updated: 2022/07/07 17:30:05 by albagarc         ###   ########.fr       */
+/*   Updated: 2022/07/08 12:27:24 by albagarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@
 #include <stdlib.h> //para malloc
 
 char	*get_next_line(int fd);
+//char 	*read_txt(int fd);
 
 #endif

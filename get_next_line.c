@@ -6,11 +6,12 @@
 /*   By: albagarc <albagarc@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 10:16:56 by albagarc          #+#    #+#             */
-/*   Updated: 2022/07/07 17:30:07 by albagarc         ###   ########.fr       */
+/*   Updated: 2022/07/08 15:24:35 by albagarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -37,26 +38,20 @@ char	*ft_strchr(const char*s, int c)
 	return (0);
 }
 
-void	ft_bzero(void *s, size_t n)
+void	*ft_calloc_zero(size_t count, size_t size)
 {
+	char	*ptr;
 	size_t	i;
 
 	i = 0;
-	while (i < n && n != 0)
-	{
-		((char *)s)[i] = 0;
-		i++;
-	}
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	char	*ptr;
-
 	ptr = malloc (count * size);
 	if (ptr != NULL)
 	{
-		ft_bzero (ptr, (count * size));
+		while (i < size && size != 0)
+		{
+		((char *)ptr)[i] = 0;
+		i++;
+		}
 		return (ptr);
 	}
 	return (0);
@@ -91,21 +86,78 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (new);
 }
 
+//char	*clean_and_cut(char	*buffer)
+
+
+char	*extract_line(char	*buffer) 
+{
+	int		i;
+	char	*line;
+	char	*rest;
+	int 	j;
+
+	j = 0;
+	i = 0;
+
+	printf("Hemos entrado en extract:%s\n", buffer);
+	while (buffer[i] != '\n')
+	{
+//		line[i] = buffer[i];
+		i++;
+	}
+	rest = ft_calloc_zero(ft_strlen(buffer) - i, sizeof(char));
+	line = ft_calloc_zero(i + 1, sizeof(char));
+	while (buffer[i] != '\0')
+	{
+		printf("j vale: %d\ni vale: %d\n", j, i);
+		printf("rest[j]:%c\nbuffer[i]:%c\n", rest[j], buffer[i]);
+		rest[j] = buffer[i];
+		i++;
+		j++;
+	}
+	printf ("rest es= %s\n", rest);
+
+	printf("mi calloc es de = %d + 1\n", i);
+	i = 0;
+	while (buffer[i] != '\n')
+	{
+		printf("i = %d\n", i);
+		line[i] = buffer[i];
+		printf("line[i]=%c\nbuffer[i]=%c\n", line[i],buffer[i]);
+		i++;
+	}
+	printf("line tiene guardado:%s\n", line);
+	printf("i = %d\n", i);
+	line[i] = '\n';
+	line[i + 1] = '\0';
+
+//	rest[j] = line[i + 1] 
+
+
+	free (buffer);
+	return (line);
+}
+
 char	*get_next_line(int fd)
 {
 	static char			*buffer;
-	char				*lectura;
-	char				*total_buffer;
+	char				*read_buffer_size;
+	char				*join_buffer;
+	char				*line;
 
-	buffer = ft_calloc(1, 1);
-	lectura = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	while ( ft_strchr(lectura, '\n') == 0)
+	buffer = ft_calloc_zero(1, 1);
+	read_buffer_size = ft_calloc_zero(BUFFER_SIZE + 1, sizeof(char));
+	while (ft_strchr(read_buffer_size, '\n') == 0)
 	{
-		read(fd, lectura, BUFFER_SIZE);
-		total_buffer = ft_strjoin(buffer, lectura);
+		read(fd, read_buffer_size, BUFFER_SIZE);
+		join_buffer = ft_strjoin(buffer, read_buffer_size);
+		printf("strjoin tiene guardado:%s\n", join_buffer);
 		free (buffer);
-		buffer = total_buffer;
+		buffer = join_buffer;
 	}
-	free(lectura);
-return (buffer);
+	free(read_buffer_size);
+	line = extract_line(buffer);
+//	clean_and_cut(buffer);
+//	free(buffer);
+return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: albagarc <albagarc@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 15:38:19 by albagarc          #+#    #+#             */
-/*   Updated: 2022/07/07 17:32:13 by albagarc         ###   ########.fr       */
+/*   Updated: 2022/07/08 15:24:38 by albagarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -44,13 +44,14 @@
 int	main ()
 {
 	int fd;
-	char *line;
+	char *storage;
 
-	printf ("holi\n");
+
+	printf ("holi algun dia acabareis este proyecto!!\n");
 	fd = open("text.txt", O_RDONLY);
 	printf("fd:%d\n", fd);
-	line = get_next_line(fd);
-	printf("%s", line);
+	storage = get_next_line(fd);
+	printf("%s", storage);
 	
 
 }
