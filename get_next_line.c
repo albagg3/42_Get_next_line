@@ -6,7 +6,7 @@
 /*   By: albagarc <albagarc@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 10:16:56 by albagarc          #+#    #+#             */
-/*   Updated: 2022/07/11 17:35:14 by albagarc         ###   ########.fr       */
+/*   Updated: 2022/07/11 17:57:19 by albagarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (new);
 }
 
-
-
 char	*extract_line(char	*buffer) 
 {
 	int		i;
@@ -148,9 +146,8 @@ char *fill_static_buffer(char *buffer, int fd)
 	free (read_buffer_size);
 	if (num_bytes == -1)
 	{
-		return(NULL);
+		return (NULL);
 	}
-	
 	return (buffer);
 
 }
@@ -159,10 +156,8 @@ char *clean_static_buffer(char *buffer)
 {
 	int	i;
 	int j;
-	//buffer = hola\nque tal como estas
-	//new_buffer = que tal como estas
-	//
 	char *new_buffer;
+
 	i = 0;
 	j = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
@@ -175,7 +170,7 @@ char *clean_static_buffer(char *buffer)
 		return (NULL);
 	}
 	i++;
-	new_buffer = malloc ((ft_strlen(buffer) + 1) * sizeof(char));
+	new_buffer = malloc ((ft_strlen(buffer) - i + 1) * sizeof(char));
 	if(!new_buffer)
 		return (NULL);
 	while (buffer[i] != '\0')
@@ -185,7 +180,6 @@ char *clean_static_buffer(char *buffer)
 		j++;
 	}
 	new_buffer[j] = '\0';
-
 	free(buffer);
 	return(new_buffer);
 }
