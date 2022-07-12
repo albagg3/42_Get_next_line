@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albagarc <albagarc@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 10:16:56 by albagarc          #+#    #+#             */
-/*   Updated: 2022/07/12 16:17:38 by albagarc         ###   ########.fr       */
+/*   Updated: 2022/07/12 16:23:16 by albagarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*extract_line(char	*buffer)
 {
@@ -97,7 +97,7 @@ char	*get_next_line(int fd)
 {
 	static char			*buffer;
 	char				*line;
-
+	
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!buffer || (buffer && !ft_strchr(buffer, '\n')))

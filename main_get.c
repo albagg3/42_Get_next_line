@@ -6,15 +6,15 @@
 /*   By: albagarc <albagarc@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 15:38:19 by albagarc          #+#    #+#             */
-/*   Updated: 2022/07/11 17:35:45 by albagarc         ###   ########.fr       */
+/*   Updated: 2022/07/12 12:05:09 by albagarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "get_next_line.h"
-#include <unistd.h>
-#include <stdio.h>
+# include "get_next_line.h"
+# include <unistd.h>
+# include <stdio.h>
 //#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdlib.h>
+# include <fcntl.h>
+# include <stdlib.h>
 //#define MITAM 80
 
 /*int	main () 
@@ -44,14 +44,21 @@
 int	main ()
 {
 	int fd;
-	char *storage;
+	char *line;
+	int	i;
 
 
-	printf ("holi algun dia acabareis este proyecto!!\n");
+	i = 0;
 	fd = open("text.txt", O_RDONLY);
-	printf("fd:%d\n", fd);
-	storage = get_next_line(fd);
-	printf("storage:%s", storage);
-	
-
+//	printf("fd:%d\n", fd);
+	while (i < 5)
+	{
+		line = get_next_line(fd);
+		printf("line:\n%s", line);
+		if (line)
+			free(line);
+		i++;
+	}
+	close (fd);
+	return (0);
 }
