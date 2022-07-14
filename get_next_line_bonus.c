@@ -6,7 +6,7 @@
 /*   By: albagarc <albagarc@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 10:16:56 by albagarc          #+#    #+#             */
-/*   Updated: 2022/07/12 16:23:16 by albagarc         ###   ########.fr       */
+/*   Updated: 2022/07/14 13:35:00 by albagarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ static char	*fill_static_buffer(char *buffer, int fd)
 	}
 	free (read_buffer_size);
 	if (num_bytes == -1)
+	{
+		free(buffer);
 		return (NULL);
+	}
 	return (buffer);
 }
 
@@ -95,16 +98,16 @@ static char	*clean_static_buffer(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char			*buffer;
+	static char			*buffer[1024];
 	char				*line;
 	
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!buffer || (buffer && !ft_strchr(buffer, '\n')))
-		buffer = fill_static_buffer(buffer, fd);
-	if (!buffer)
+	if (!buffer[fd] || (buffer[fd] && !ft_strchr(buffer[fd], '\n')))
+		buffer[fd] = fill_static_buffer(buffer[fd], fd);
+	if (!buffer[fd])
 		return (NULL);
-	line = extract_line(buffer);
-	buffer = clean_static_buffer(buffer);
+	line = extract_line(buffer[fd]);
+	buffer[fd] = clean_static_buffer(buffer[fd]);
 	return (line);
 }
