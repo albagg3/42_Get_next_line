@@ -6,7 +6,7 @@
 /*   By: albagarc <albagarc@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 15:38:19 by albagarc          #+#    #+#             */
-/*   Updated: 2022/07/14 13:14:42 by albagarc         ###   ########.fr       */
+/*   Updated: 2022/07/15 15:44:18 by albagarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 # include "get_next_line.h"
@@ -40,42 +40,78 @@
 //	printf("%s", line);
 }*/
 
-
+/*
 int	main ()
 {
 	int		fd;
-	int		fd1;
+	int		fd2;
+	int		fd3;
+	int		fd4;
 	char	*line;
-	char	*line1;
 	int		i;
-
 
 	i = 0;
 	fd = open("text.txt", O_RDONLY);
-	fd1 = open("text2.txt", O_RDONLY);
-//	printf("fd:%d fd1:%d\n", fd, fd1);
+	fd2 = open("text2.txt", O_RDONLY);
+	fd3 = open("text3.txt", O_RDONLY);
+	fd4 = open("text4.txt", O_RDONLY);
 
-//	printf("fd:%d\n", fd);
-	while (i < 5)
+	while (1)
 	{
-		printf("el fd es= %d\n", fd);
-	//	printf("el fd1 es= %d\n", fd1);
-	//	printf("la i es= %d\n", i);
+		printf("el fd es= %d\n", fd); 
 		line = get_next_line(fd);
 		printf("%s\n", line);
 		if (line)
 			free(line);
 		
-		printf("el fd1 es= %d\n", fd1);
-		line1 = get_next_line(fd1);
-		printf("%s\n", line1);
-		if (line1)
-			free(line1);
-		i++;
-	//	fd++;
-	//	close (fd);
+		printf("el fd2 es= %d\n", fd2);	//Bonus
+		line = get_next_line(fd2);		//Bonus
+		printf("%s\n", line);			//Bonus
+		if (line)						//Bonus
+			free(line);					//Bonus
+		close(fd2);
+
+		printf("el fd3 es= %d\n", fd3);	//Bonus
+		line = get_next_line(fd3);		//Bonus
+		printf("%s\n", line);			//Bonus
+		if (line)						//Bonus
+			free(line);					//Bonus
+
+		printf("el fd4 es= %d\n", fd4);	//Bonus
+		line = get_next_line(fd4);		//Bonus
+		printf("%s\n", line);			//Bonus
+		if (line)						//Bonus
+			free(line);					//Bonus
+//	line++;
+//	i++;
+		if (!line)
+			break;
 	}
 	
 	close (fd);
+	fd2 = open("text2.txt", O_RDONLY);
+	printf("fd2=%d", fd2);
+	close (fd2);
+	close (fd3);
+	close (fd4);
 	return (0);
+}
+*/
+
+int main()
+{
+	char* line;
+	//int	fd;
+	int i = 0;
+    line = get_next_line(0);			// 1
+    while (line)
+
+    {
+    	printf("Gnl %d line : %s", i++, line);
+        free(line);
+    	line = get_next_line(0);
+    }
+    printf("\n");
+    free(line);					// 2
+    return (0);
 }

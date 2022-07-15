@@ -6,7 +6,7 @@
 /*   By: albagarc <albagarc@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 10:16:56 by albagarc          #+#    #+#             */
-/*   Updated: 2022/07/14 13:35:00 by albagarc         ###   ########.fr       */
+/*   Updated: 2022/07/15 15:44:21 by albagarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	*get_next_line(int fd)
 {
 	static char			*buffer[1024];
 	char				*line;
-	
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!buffer[fd] || (buffer[fd] && !ft_strchr(buffer[fd], '\n')))
