@@ -6,7 +6,7 @@
 /*   By: albagarc <albagarc@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 10:16:56 by albagarc          #+#    #+#             */
-/*   Updated: 2022/07/15 15:44:21 by albagarc         ###   ########.fr       */
+/*   Updated: 2022/07/19 10:26:27 by albagarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static char	*extract_line(char	*buffer)
 		return (NULL);
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
-	line = malloc ((i + 2) * sizeof(char));
+	if (buffer[i] == '\0')
+		line = malloc ((i + 1) * sizeof(char));
+	else
+		line = malloc ((i + 2) * sizeof(char));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -32,10 +35,7 @@ static char	*extract_line(char	*buffer)
 		i++;
 	}
 	if (buffer[i] == '\n')
-	{
-		line[i] = '\n';
-		i++;
-	}
+		line[i++] = '\n';
 	line[i] = '\0';
 	return (line);
 }
