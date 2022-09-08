@@ -6,7 +6,7 @@
 /*   By: albagarc <albagarc@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 15:38:19 by albagarc          #+#    #+#             */
-/*   Updated: 2022/07/19 10:13:00 by albagarc         ###   ########.fr       */
+/*   Updated: 2022/09/08 17:23:10 by albagarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 # include "get_next_line.h"
@@ -16,7 +16,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 //#define MITAM 80
-
+//
 /*int	main () 
 {
 	int fd;
